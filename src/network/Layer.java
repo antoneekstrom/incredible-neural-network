@@ -31,7 +31,8 @@ public class Layer {
      */
     public void connect(Layer layer) {
         Weights w = new Weights(this, layer);
-        weights.add(w);
+        addWeights(w);
+        layer.addWeights(w);
     }
 
     /**
@@ -40,6 +41,19 @@ public class Layer {
      */
     public Node[] getNodes() {
         return nodes;
+    }
+
+    /**
+     * @return
+     */
+    public double[] getValues() {
+        double[] values = new double[nodes.length];
+
+        for (int i = 0; i < values.length; i++) {
+            values[i] = nodes[i].value();
+        }
+
+        return values;
     }
 
     /**
@@ -56,6 +70,13 @@ public class Layer {
      */
     public ArrayList<Weights> getWeights() {
         return weights;
+    }
+
+    /**
+     * @param weights the weights
+     */
+    protected void addWeights(Weights weights) {
+        getWeights().add(weights);
     }
 
 }

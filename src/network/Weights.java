@@ -1,5 +1,7 @@
 package network;
 
+import util.MatrixHelper;
+
 /**
  * Weights for a {@link Layer} in a {@link Network}.
  */
@@ -11,7 +13,7 @@ public class Weights {
     /**
      * The weights between the layers.
      */
-    private final double[] weights;
+    private final Double[][] weights;
 
     /**
      * @param l1
@@ -21,7 +23,10 @@ public class Weights {
         this.l1 = l1;
         this.l2 = l2;
 
-        weights = new double[l1.size() * l2.size()];
+        weights = new Double[l1.size()][l2.size()];
+
+        // Assign random weights
+        MatrixHelper.iterate(weights, (x, y) -> weights[x][y] = Math.random());
     }
 
     /**

@@ -59,11 +59,17 @@ public class Network {
     }
 
 
+    /**
+     * @return
+     */
+    public double[] getOutput() {
+        return getOutputLayer().getValues();
+    }
 
     /**
      * @return the input
      */
-    public InputLayer getInput() {
+    public InputLayer getInputLayer() {
         return input;
     }
 
@@ -77,7 +83,7 @@ public class Network {
     /**
      * @return the output
      */
-    public OutputLayer getOutput() {
+    public OutputLayer getOutputLayer() {
         return output;
     }
 

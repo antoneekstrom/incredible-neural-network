@@ -23,6 +23,12 @@ public class Main {
 
         // Connect all the layers with random weights
         network.connectLayers();
+
+        
+        network.getInputLayer().set(Math.random(), 0);
+
+        double y = network.getOutput()[0];
+        System.out.println("output: " + y);
     }
     
 }
