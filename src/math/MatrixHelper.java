@@ -1,4 +1,4 @@
-package util;
+package math;
 
 import java.util.function.BiConsumer;
 
@@ -35,5 +35,19 @@ public class MatrixHelper {
         }
     }
 
+    /**
+     * Iterate over matrix.
+     * 
+     * @param matrix the matrix
+     * @param consumer the function
+     * 
+     */
+    public static void iterate(double[][] matrix, BiConsumer<Integer, Integer> consumer) {
+        for (int x = 0; x < matrix.length; x++) {
+            for (int y = 0; y < matrix[x].length; y++) {
+                consumer.accept(x, y);
+            }
+        }
+    }
     
 }

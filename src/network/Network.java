@@ -44,6 +44,7 @@ public class Network {
      * 
      */
     public void randomizeWeights() {
+        for (Layer l : layers) l.getWeights().forEach(w -> w.randomize());
     }
 
     /**

@@ -36,6 +36,17 @@ public class Layer {
     }
 
     /**
+     * @param nodes the new node value
+     */
+    public void setNodes(double[] nodes) {
+        for (int i = 0; i < nodes.length; i++) {
+            if (i < this.nodes.length) {
+                this.nodes[i].set(nodes[i]);
+            }
+        }
+    }
+
+    /**
      * Get the nodes in the layer.
      * @return the nodes
      */

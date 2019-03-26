@@ -1,6 +1,6 @@
 package network;
 
-import util.MatrixHelper;
+import math.Matrix2d;
 
 /**
  * Weights for a {@link Layer} in a {@link Network}.
@@ -13,7 +13,7 @@ public class Weights {
     /**
      * The weights between the layers.
      */
-    private final Double[][] weights;
+    private final Matrix2d weights;
 
     /**
      * @param l1
@@ -23,23 +23,24 @@ public class Weights {
         this.l1 = l1;
         this.l2 = l2;
 
-        weights = new Double[l1.size()][l2.size()];
+        weights = new Matrix2d(l1.size(), l2.size());
 
         // Assign random weights
-        MatrixHelper.iterate(weights, (x, y) -> weights[x][y] = Math.random());
+        randomize();
     }
 
     /**
      * 
      */
     public void randomize() {
+        weights.setAll(d -> Math.random());
     }
 
     /**
-     * @return the amount of connections
+     * @return the weights
      */
-    public int connections() {
-        return weights.length;
+    public Matrix2d getMatrix() {
+        return weights;
     }
 
     /**
