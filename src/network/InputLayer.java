@@ -18,7 +18,7 @@ public class InputLayer extends Layer {
      */
     public void set(double... nodes) {
         for (int i = 0; i < nodes.length; i++) {
-            getNodes()[i].set(nodes[i]);
+            getVector().set(i, 0, nodes[i]);
         }
     }
 
@@ -28,7 +28,7 @@ public class InputLayer extends Layer {
      * @param index the index
      */
     public void set(double value, int index) {
-        getNodes()[index].set(value);
+        getVector().set(index, 0, value);
     }
     
 }

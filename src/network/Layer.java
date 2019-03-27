@@ -2,6 +2,8 @@ package network;
 
 import java.util.ArrayList;
 
+import math.Vector;
+
 /**
  * A layer in a {@link Network}.
  */
@@ -10,7 +12,7 @@ public class Layer {
     /**
      * Nodes in this layer.
      */
-    private final Node[] nodes;
+    private final Vector values;
 
     /**
      * Weights connected to other layers.
@@ -21,7 +23,7 @@ public class Layer {
      * @param amountNodes the amount of nodes in the layer
      */
     public Layer(int amountNodes) {
-        nodes = new Node[amountNodes];
+        values = new Vector(amountNodes);
         weights = new ArrayList<>();
     }
 
@@ -38,32 +40,26 @@ public class Layer {
     /**
      * @param nodes the new node value
      */
-    public void setNodes(double[] nodes) {
+    public void setValues(double[] nodes) {
         for (int i = 0; i < nodes.length; i++) {
-            if (i < this.nodes.length) {
-                this.nodes[i].set(nodes[i]);
+            if (i < this.values.m()) {
+                this.values.set(i, 0, nodes[i]);
             }
         }
+    }
+
+    /**
+     * @return the values
+     */
+    public double[] getValues() {
+        return values.array();
     }
 
     /**
      * Get the nodes in the layer.
      * @return the nodes
      */
-    public Node[] getNodes() {
-        return nodes;
-    }
-
-    /**
-     * @return
-     */
-    public double[] getValues() {
-        double[] values = new double[nodes.length];
-
-        for (int i = 0; i < values.length; i++) {
-            values[i] = nodes[i].value();
-        }
-
+    public Vector getVector() {
         return values;
     }
 
@@ -72,14 +68,14 @@ public class Layer {
      * @return the size of the layer
      */
     public int size() {
-        return getNodes().length;
+        return getVector().m();
     }
 
     /**
      * Get the weights.
      * @return the weights
      */
-    public ArrayList<Weights> getWeights() {
+    public ArrayList<Weights> weights() {
         return weights;
     }
 
@@ -87,7 +83,7 @@ public class Layer {
      * @param weights the weights
      */
     protected void addWeights(Weights weights) {
-        getWeights().add(weights);
+        weights().add(weights);
     }
 
 }

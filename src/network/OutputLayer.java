@@ -11,5 +11,5 @@ public class OutputLayer extends Layer {
     public OutputLayer(int nodes) {
         super(nodes);
     }
-    
+
 }

@@ -1,5 +1,10 @@
 package network;
 
+import math.Matrix;
+import math.Vector;
+
+import static math.Functions.*;
+
 // TODO produce documentation of considerably sublime quality
 
 /**
@@ -44,28 +49,26 @@ public class Network {
      * 
      */
     public void randomizeWeights() {
-        for (Layer l : layers) l.getWeights().forEach(w -> w.randomize());
+        for (Layer l : layers) l.weights().get(0).randomize();
     }
 
     /**
-     * 
+     * TODO
      */
     public void backPropagate() {
     }
     
     /**
-     * 
+     * TODO
      */
     public void feedForward() {
+
+        Layer l = getInputLayer();
+        Weights w = l.weights().get(0);
+
+        Matrix z = l.getVector().multiply(w.getMatrix());
     }
 
-
-    /**
-     * @return
-     */
-    public double[] getOutput() {
-        return getOutputLayer().getValues();
-    }
 
     /**
      * @return the input

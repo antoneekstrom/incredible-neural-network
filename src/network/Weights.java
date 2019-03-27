@@ -1,6 +1,6 @@
 package network;
 
-import math.Matrix2d;
+import math.Matrix;
 
 /**
  * Weights for a {@link Layer} in a {@link Network}.
@@ -13,7 +13,7 @@ public class Weights {
     /**
      * The weights between the layers.
      */
-    private final Matrix2d weights;
+    private final Matrix weights;
 
     /**
      * @param l1
@@ -23,7 +23,7 @@ public class Weights {
         this.l1 = l1;
         this.l2 = l2;
 
-        weights = new Matrix2d(l1.size(), l2.size());
+        weights = new Matrix(l1.size(), l2.size());
 
         // Assign random weights
         randomize();
@@ -39,7 +39,7 @@ public class Weights {
     /**
      * @return the weights
      */
-    public Matrix2d getMatrix() {
+    public Matrix getMatrix() {
         return weights;
     }
 
