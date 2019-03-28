@@ -96,7 +96,7 @@ public class Matrix {
      */
     public Matrix multiply(Matrix b) {
         if (!validateMatrix(b)) throw new RuntimeException("Invalid matrix dimensions.");
-        return new Matrix(MatrixHelper.multiply(this.matrix, b.matrix));
+        return new Matrix(MatrixMath.multiply(this.matrix, b.matrix));
     }
 
     /**
@@ -163,7 +163,7 @@ public class Matrix {
      * @return the row
      */
     public double[] getRow(int m) {
-        return MatrixHelper.getRow(this.matrix, m);
+        return MatrixMath.getRow(this.matrix, m);
     }
 
     /**
@@ -173,7 +173,7 @@ public class Matrix {
      * @return the column
      */
     public double[] getColumn(int n) {
-        return MatrixHelper.getColumn(this.matrix, n);
+        return MatrixMath.getColumn(this.matrix, n);
     }
 
     /**
@@ -251,7 +251,7 @@ public class Matrix {
      * @return this matrix
      */
     public Matrix iterate(BiConsumer<Integer, Integer> consumer) {
-        MatrixHelper.iterate(this.matrix, consumer);
+        MatrixMath.iterate(this.matrix, consumer);
 
         return this;
     }
@@ -274,7 +274,7 @@ public class Matrix {
      * @return the string
      */
     public String format() {
-        return MatrixHelper.format(this.matrix);
+        return MatrixMath.toString(this.matrix);
     }
 
     /**
