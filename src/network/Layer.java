@@ -17,14 +17,13 @@ public class Layer {
     /**
      * Weights connected to other layers.
      */
-    private ArrayList<Weights> weights;
+    private Weights inputWeights, outputWeights;
 
     /**
      * @param amountNodes the amount of nodes in the layer
      */
     public Layer(int amountNodes) {
         values = new Vector(amountNodes);
-        weights = new ArrayList<>();
     }
 
     /**
@@ -33,8 +32,8 @@ public class Layer {
      */
     public void connect(Layer layer) {
         Weights w = new Weights(this, layer);
-        addWeights(w);
-        layer.addWeights(w);
+        outputWeights = w;
+        layer.inputWeights = w;
     }
 
     /**
@@ -72,18 +71,31 @@ public class Layer {
     }
 
     /**
-     * Get the weights.
-     * @return the weights
+     * @param inputWeights the inputWeights to set
      */
-    public ArrayList<Weights> weights() {
-        return weights;
+    public void setInputWeights(Weights inputWeights) {
+        this.inputWeights = inputWeights;
     }
 
     /**
-     * @param weights the weights
+     * @param outputWeights the outputWeights to set
      */
-    protected void addWeights(Weights weights) {
-        weights().add(weights);
+    public void setOutputWeights(Weights outputWeights) {
+        this.outputWeights = outputWeights;
+    }
+
+    /**
+     * @return the inputWeights
+     */
+    public Weights getInputWeights() {
+        return inputWeights;
+    }
+
+    /**
+     * @return the outputWeights
+     */
+    public Weights getOutputWeights() {
+        return outputWeights;
     }
 
 }

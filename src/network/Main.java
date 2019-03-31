@@ -2,6 +2,8 @@ package network;
 
 import static network.Layers.*;
 
+import math.Matrix;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class Main {
         builder.setInput(new InputLayer(3));
 
         // The amount / size of hidden(?) layers
-        builder.setLayers(createLayers(4));
+        builder.setLayers(createLayers(3));
 
         // The output layer
         builder.setOutput(new OutputLayer(1));
@@ -23,9 +25,11 @@ public class Main {
 
         // Connect all the layers with random weights
         network.connectLayers();
-
         
         network.getInputLayer().set(Math.random(), 0);
+
+        Matrix result = network.feedForward();
+        System.out.println(result.toString());
     }
     
 }

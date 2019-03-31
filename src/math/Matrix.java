@@ -57,7 +57,9 @@ public class Matrix {
 
 
     /**
-     * @param d
+     * This modifies the current matrix.
+     * 
+     * @param d a scalar
      * @return this matrix
      */
     public Matrix power(double d) {
@@ -65,7 +67,9 @@ public class Matrix {
     }
 
     /**
-     * @param d
+     * This modifies the current matrix
+     * 
+     * @param d a scalar
      * @return this matrix
      */
     public Matrix add(double d) {
@@ -73,7 +77,9 @@ public class Matrix {
     }
 
     /**
-     * @param d
+     * This modifies the current matrix
+     * 
+     * @param d a scalar
      * @return this matrix
      */
     public Matrix divide(double d) {
@@ -81,7 +87,9 @@ public class Matrix {
     }
 
     /**
-     * @param d
+     * This modifies the current matrix
+     * 
+     * @param d a scalar
      * @return this matrix
      */
     public Matrix multiply(double d) {
@@ -90,6 +98,7 @@ public class Matrix {
 
     /**
      * Multiply this matrix with another.
+     * <p>This creates a new matrix.
      * 
      * @param matrix the other matrix
      * @return a new matrix that is the product of A x B
@@ -97,6 +106,17 @@ public class Matrix {
     public Matrix multiply(Matrix b) {
         if (!validateMatrix(b)) throw new RuntimeException("Invalid matrix dimensions.");
         return new Matrix(MatrixMath.multiply(this.matrix, b.matrix));
+    }
+
+    /**
+     * This creates a new matrix.
+     * 
+     * @param b another matrix
+     * @return this matrix
+     */
+    public Matrix dot(Matrix b) {
+        if (!validateMatrix(b)) throw new RuntimeException("Invalid matrix dimensions.");
+        return new Matrix(MatrixMath.dot(this.matrix, b.matrix));
     }
 
     /**
@@ -273,7 +293,8 @@ public class Matrix {
      * Format a string representing the matrix.
      * @return the string
      */
-    public String format() {
+    @Override
+    public String toString() {
         return MatrixMath.toString(this.matrix);
     }
 

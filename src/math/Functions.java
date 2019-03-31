@@ -16,5 +16,15 @@ public class Functions {
     public static double sigmoid(double x) {
         return 1 / (1 + pow(E, -x));
     }
+
+    /**
+     * A sigmoid function. Also called logistic or soft-step, apparently.
+     * 
+     * @param x the input
+     * @return y the output
+     */
+    public static Matrix sigmoid(Matrix m) {
+        return m.sigmoid();
+    }
     
 }

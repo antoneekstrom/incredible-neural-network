@@ -15,21 +15,21 @@ public class MatrixMath {
             {1, 2, 3},
             {4, 5, 6}
         });
-        System.out.println("a:\n" + a.format());
+        System.out.println("a:\n" + a.toString());
 
         Matrix b = new Matrix(new double[][] {
             {7, 8},
             {9, 10},
             {11, 12},
         });
-        System.out.println("b:\n" + b.format());
+        System.out.println("b:\n" + b.toString());
 
         Matrix z = a.multiply(b);
-        System.out.println("result:\n" + z.format());
+        System.out.println("result:\n" + z.toString());
 
         z =  new Matrix(8, 8);
 
-        System.out.println("8x8 identity:\n" + z.format());
+        System.out.println("8x8 identity:\n" + z.toString());
     }
 
     /**
@@ -47,6 +47,36 @@ public class MatrixMath {
         for (int m = 0; m < z.length; m++) {
             for (int n = 0; n < z[0].length; n++) {
                 z[m][n] = VectorHelper.dot(a[m], getColumn(b, n));
+            }
+        }
+
+        return z;
+    }
+
+    /**
+     * 
+     * @param a
+     * @param b
+     * @return
+     */
+    public static double[][] dot(double[][] a, double[][] b) {
+
+        if (!validateMatrices(a, b)) throw new RuntimeException("Invalid matrix dimensions.");
+
+
+        // I copied this bit (sorry)
+
+        int m1 = a.length;
+        int n1 = a[0].length;
+        int n2 = b[0].length;
+
+        double[][] z = new double[m1][n2];
+
+        for (int i = 0; i < m1; i++) {
+            for (int j = 0; j < n2; j++) {
+                for (int k = 0; k < n1; k++) {
+                    z[i][j] += a[i][k] * b[k][j];
+                }
             }
         }
 

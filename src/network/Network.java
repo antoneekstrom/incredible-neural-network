@@ -3,6 +3,7 @@ package network;
 import math.Matrix;
 import math.Vector;
 
+import static math.MatrixMath.*;
 import static math.Functions.*;
 
 // TODO produce documentation of considerably sublime quality
@@ -49,7 +50,11 @@ public class Network {
      * 
      */
     public void randomizeWeights() {
-        for (Layer l : layers) l.weights().get(0).randomize();
+
+        for (Layer l : getLayers()) {
+            l.getInputWeights().randomize();
+            l.getOutputWeights().randomize();
+        }
     }
 
     /**
@@ -61,12 +66,28 @@ public class Network {
     /**
      * TODO
      */
-    public void feedForward() {
+    public Matrix feedForward() {
 
-        Layer l = getInputLayer();
-        Weights w = l.weights().get(0);
+        // Current layer and weights
+        Layer layer = getInputLayer();
+        Weights outputWeights;
 
-        Matrix z = l.getVector().multiply(w.getMatrix());
+        Matrix z = layer.getVector();
+
+        // Every layer except the last will have output weights which will carry the input all the way to the end
+
+        while ((outputWeights = layer.getOutputWeights()) != null) {
+
+            z = layer.getVector().rotate();
+
+            z = sigmoid(z.dot(outputWeights.getMatrix()));
+
+            // Get the next layer which is connected to the weights and check it's weights if there are any
+            layer = outputWeights.getL2();
+        }
+
+        return z;
+
     }
 
 
