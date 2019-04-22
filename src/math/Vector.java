@@ -6,18 +6,60 @@ package math;
 public class Vector extends Matrix {
 
     /**
-     * @param length the length of the vector
+     * @param length the length of the vector (amount of columns in the matrix)
      */
     public Vector(int length) {
         super(length, 1);
     }
 
+    /**
+     * @param v
+     */
     public Vector(double[] v) {
         super(v.length, 1);
+        set(v);
+    }
 
-        for (int i = 0; i < v.length; i++) {
-            setRow(i, new double[] {v[i]});
+    /**
+     * @param m
+     */
+    public Vector(Matrix m) {
+        super(m.m(), m.n());
+        if (m.n() != 1) throw new RuntimeException("Illegal vector dimensions.");
+    }
+
+    /**
+     * Set the values of the vector.
+     * 
+     * @param values the values
+     */
+    public void set(double[] values) {
+        if (values.length != m()) return;
+
+        for (int i = 0; i < values.length; i++) {
+            set(i, 0, values[i]);
         }
+    }
+
+    /**
+     * @return
+     */
+    public double[] getValues() {
+        double[] values = new double[m()];
+
+        for (int i = 0; i < m(); i++) {
+            values[i] = get(i);
+        }
+
+        return values;
+    }
+
+    /**
+     * @param m
+     * @return
+     */
+    public double get(int m) {
+        return get(m, 0);
     }
 
     /**
@@ -27,22 +69,31 @@ public class Vector extends Matrix {
         return getColumn(0);
     }
 
+    @Override
+    public Vector copy() {
+        return new Vector(getColumn(0).clone());
+    }
+
     /**
-     * Rotate the vector, switch the columns and rows.
-     * @return a new rotated vector
+     * Set a value in the vector.
+     * 
+     * @param m the index of the value (row)
+     * @param val the value
      */
-    public Vector rotate() {
-        double[] v = new double[n()];
+    public void set(int m, double val) {
+        set(m, 0, val);
+    }
 
-        for (int i = 0; i < n(); i++) {
-            v[i] = getRow(i)[0];
-        }
-
-        return new Vector(v);
+    /**
+     * @return the length of the vector (amount of columns in the matrix)
+     */
+    public int length() {
+        return m();
     }
 
     /**
      * Multiply this vector by another.
+     * Does not modify the vectors.
      * 
      * @param v the other vector
      * @return this vector

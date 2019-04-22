@@ -10,6 +10,9 @@ sourceSets {
 	}
 }
 
+dependencies {
+}
+
 mainClassName = "network.Main"
 
 buildDir = "dist"

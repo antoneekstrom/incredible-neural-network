@@ -21,7 +21,6 @@ public class Matrix {
 
     private double[][] matrix;
 
-
     /**
      * Create an identity matrix with the same dimensions as another matrix.
      * @param m the matrix
@@ -79,6 +78,30 @@ public class Matrix {
     /**
      * This modifies the current matrix
      * 
+     * @param matrix another matrix
+     * @return this matrix
+     */
+    public Matrix add(Matrix matrix) {
+        return setAll((m, n) -> {
+            return get(m,n) + matrix.get(m, n);
+        });
+    }
+
+    /**
+     * This modifies the current matrix
+     * 
+     * @param matrix another matrix
+     * @return this matrix
+     */
+    public Matrix subtract(Matrix matrix) {
+        return setAll((m, n) -> {
+            return get(m,n) - matrix.get(m, n);
+        });
+    }
+
+    /**
+     * This modifies the current matrix
+     * 
      * @param d a scalar
      * @return this matrix
      */
@@ -104,7 +127,6 @@ public class Matrix {
      * @return a new matrix that is the product of A x B
      */
     public Matrix multiply(Matrix b) {
-        if (!validateMatrix(b)) throw new RuntimeException("Invalid matrix dimensions.");
         return new Matrix(MatrixMath.multiply(this.matrix, b.matrix));
     }
 
@@ -115,25 +137,33 @@ public class Matrix {
      * @return this matrix
      */
     public Matrix dot(Matrix b) {
-        if (!validateMatrix(b)) throw new RuntimeException("Invalid matrix dimensions.");
         return new Matrix(MatrixMath.dot(this.matrix, b.matrix));
     }
 
     /**
-     * Check if another matrix is able to be multiplied with this one.
-     * 
-     * @param b the other matrix
-     * @return if matrix dimensions are legal
+     * Create a new matrix which is the transpose of this matrix.
+     * @return the transpose
      */
-    public boolean validateMatrix(Matrix b) {
-        return this.n() == b.m();
+    public Matrix transpose() {
+        return new Matrix(MatrixMath.transpose(this.matrix));
     }
 
     /**
+     * Do the simgoid.
+     * 
      * @return this matrix
      */
     public Matrix sigmoid() {
         return setAll(Functions::sigmoid);
+    }
+
+    /**
+     * Random all the values in the matrix. The random value will be range from 0-1 and be multiplied by the argument.
+     * @param mul the value to multiply by
+     * @return this matrix
+     */
+    public Matrix randomize(double mul) {
+        return this.setAll(v -> Math.random() * mul);
     }
 
     /**
@@ -242,7 +272,7 @@ public class Matrix {
     /**
      * Use {@link #set(int, int, double)} on every value of the matrix.
      * 
-     * @param func The function to set every position to. The function takes in the value of the position.
+     * @param func (old value) -> new value
      * 
      * @return this matrix
      */
@@ -255,7 +285,7 @@ public class Matrix {
     /**
      * Use {@link #set(int, int, double)} on every value of the matrix.
      * 
-     * @param func The function to set every position to. The function takes in the m position and the n position.
+     * @param func (m, n) -> new value
      * 
      * @return this matrix
      */
@@ -266,12 +296,12 @@ public class Matrix {
     }
 
     /**
-     * @param consumer the function to apply to all members of the matrix
+     * @param func the function (m, n) -> void
      * 
      * @return this matrix
      */
-    public Matrix iterate(BiConsumer<Integer, Integer> consumer) {
-        MatrixMath.iterate(this.matrix, consumer);
+    public Matrix iterate(BiConsumer<Integer, Integer> func) {
+        MatrixMath.iterate(this.matrix, func);
 
         return this;
     }
@@ -296,6 +326,22 @@ public class Matrix {
     @Override
     public String toString() {
         return MatrixMath.toString(this.matrix);
+    }
+
+    /**
+     * Format the matrix to a readable form and print it to {@code System.out}.
+     */
+    public void print() {
+        System.out.printf("---%s---%n%s%n", dimensions(), toString());
+        System.out.println();
+    }
+
+    /**
+     * Format the dimensions as a string.
+     * @return the string
+     */
+    public String dimensions() {
+        return String.format("%sx%s", m(), n());
     }
 
     /**

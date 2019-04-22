@@ -1,18 +1,16 @@
 package network;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
+import math.Matrix;
 import math.Vector;
 
 /**
- * A layer in a {@link Network}.
+ * A layer in a {@link NeuralNetwork}.
  */
-public class Layer {
+public class Layer extends Vector implements Serializable {
 
-    /**
-     * Nodes in this layer.
-     */
-    private final Vector values;
+    private static final long serialVersionUID = 3831011053857002186L;
 
     /**
      * Weights connected to other layers.
@@ -20,10 +18,29 @@ public class Layer {
     private Weights inputWeights, outputWeights;
 
     /**
-     * @param amountNodes the amount of nodes in the layer
+     * Cached value for backProp.
      */
-    public Layer(int amountNodes) {
-        values = new Vector(amountNodes);
+    private Matrix z;
+
+    /**
+     * A name for the layer.
+     */
+    private String layerName;
+
+    /**
+     * @param nodes the amount of nodes in the layer
+     */
+    public Layer(int nodes) {
+        this(nodes, "Layer");
+    }
+
+    /**
+     * @param nodes the amount of nodes in the layer
+     * @param name label the layer
+     */
+    public Layer(int nodes, String name) {
+        super(nodes);
+        this.layerName = name;
     }
 
     /**
@@ -32,42 +49,9 @@ public class Layer {
      */
     public void connect(Layer layer) {
         Weights w = new Weights(this, layer);
+        w.randomize(1);
         outputWeights = w;
         layer.inputWeights = w;
-    }
-
-    /**
-     * @param nodes the new node value
-     */
-    public void setValues(double[] nodes) {
-        for (int i = 0; i < nodes.length; i++) {
-            if (i < this.values.m()) {
-                this.values.set(i, 0, nodes[i]);
-            }
-        }
-    }
-
-    /**
-     * @return the values
-     */
-    public double[] getValues() {
-        return values.array();
-    }
-
-    /**
-     * Get the nodes in the layer.
-     * @return the nodes
-     */
-    public Vector getVector() {
-        return values;
-    }
-
-    /**
-     * Get the amount of nodes in the layer
-     * @return the size of the layer
-     */
-    public int size() {
-        return getVector().m();
     }
 
     /**
@@ -96,6 +80,40 @@ public class Layer {
      */
     public Weights getOutputWeights() {
         return outputWeights;
+    }
+
+    /**
+     * @param layerName the layerName to set
+     */
+    public void setLayerName(String layerName) {
+        this.layerName = layerName;
+    }
+
+    /**
+     * @return the layerName
+     */
+    public String getLayerName() {
+        return layerName;
+    }
+
+    /**
+     * @return the z
+     */
+    public Matrix getZ() {
+        return z;
+    }
+    
+    /**
+     * @param z the z to set
+     */
+    public void setZ(Matrix z) {
+        this.z = z;
+    }
+
+    @Override
+    public void print() {
+        System.out.println(getLayerName());
+        super.print();
     }
 
 }

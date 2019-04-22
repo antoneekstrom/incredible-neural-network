@@ -33,20 +33,41 @@ public class MatrixMath {
     }
 
     /**
-     * Multiply this matrix with another.
+     * @param a
+     * @return
+     */
+    public static int m(double[][] a) {
+        return a.length;
+    }
+
+    /**
+     * @param a
+     * @return
+     */
+    public static int n(double[][] a) {
+        return a[0].length;
+    }
+
+    /**
+     * Multiply two matrices element-wise. This returns a matrix the same size as the two factors.
      * 
      * @param matrix the other matrix
-     * @return a new matrix that is the product of A x B
+     * @return a new matrix that is the product of {@code a * b}
      */
     public static double[][] multiply(double[][] a, double[][] b) {
 
-        if (!validateMatrices(a, b)) throw new RuntimeException("Invalid matrix dimensions.");
+        int m1 = m(a);
+        int n1 = n(a);
+        int m2 = m(b);
+        int n2 = n(b);
 
-        double[][] z = new double[a.length][b[0].length];
+        if (m1 != m2 || n1 != n2) throw new RuntimeException("Invalid matrix dimensions.");
 
-        for (int m = 0; m < z.length; m++) {
-            for (int n = 0; n < z[0].length; n++) {
-                z[m][n] = VectorHelper.dot(a[m], getColumn(b, n));
+        double[][] z = new double[m1][n1];
+
+        for (int m = 0; m < m1; m++) {
+            for (int n = 0; n < n1; n++) {
+                z[m][n] = a[m][n] * b[m][n];
             }
         }
 
@@ -54,21 +75,22 @@ public class MatrixMath {
     }
 
     /**
+     * Calculate the dot product of two matrices.
      * 
-     * @param a
-     * @param b
-     * @return
+     * @param a matrix a
+     * @param b matrix b
+     * @return the new matrix
      */
     public static double[][] dot(double[][] a, double[][] b) {
 
-        if (!validateMatrices(a, b)) throw new RuntimeException("Invalid matrix dimensions.");
+        int m1 = m(a);
+        int n1 = n(a);
+        int n2 = n(b);
+        int m2 = m(b);
 
+        if (n1 != m2) throw new RuntimeException("Invalid matrix dimensions.");
 
         // I copied this bit (sorry)
-
-        int m1 = a.length;
-        int n1 = a[0].length;
-        int n2 = b[0].length;
 
         double[][] z = new double[m1][n2];
 
@@ -87,7 +109,7 @@ public class MatrixMath {
      * Iterate over matrix.
      * 
      * @param matrix the matrix
-     * @param consumer the function
+     * @param consumer the function (m, n) -> void
      * 
      */
     public static <T> void iterate(T[][] matrix, BiConsumer<Integer, Integer> consumer) {
@@ -102,7 +124,7 @@ public class MatrixMath {
      * Iterate over matrix.
      * 
      * @param matrix the matrix
-     * @param consumer the function
+     * @param consumer the function (m, n) -> void
      * 
      */
     public static void iterate(double[][] matrix, BiConsumer<Integer, Integer> consumer) {
@@ -111,17 +133,6 @@ public class MatrixMath {
                 consumer.accept(x, y);
             }
         }
-    }
-
-    /**
-     * Check if two matrices are able to be multiplied.
-     * 
-     * @param a matrix a
-     * @param b matrix b
-     * @return if matrix dimensions are legal
-     */
-    public static boolean validateMatrices(double[][] a, double[][] b) {
-        return a.length == b[0].length;
     }
 
     /**
@@ -164,6 +175,27 @@ public class MatrixMath {
     }
 
     /**
+     * Calculate the transpose of a matrix.
+     * 
+     * @param matrix the matrix
+     * @return the tranpose
+     */
+    public static double[][] transpose(double[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        double[][] z = new double[n][m];
+
+        // flip the matrix by switching x and y
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                z[j][i] = a[i][j];
+            }
+        }
+
+        return z;
+    }
+
+    /**
      * Format a string representing the matrix.
      * 
      * @param matrix the matrix
@@ -187,7 +219,7 @@ public class MatrixMath {
                 }
             }
 
-            b.append(String.format("]%n"));
+            b.append(String.format("]" + (m < matrix.length - 1 ? "\n" : "")));
         }
 
         return b.toString().replace(",", ".");

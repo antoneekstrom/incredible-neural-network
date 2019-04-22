@@ -3,44 +3,45 @@ package network;
 import math.Matrix;
 
 /**
- * Weights for a {@link Layer} in a {@link Network}.
+ * Weights for a {@link Layer} in a {@link NeuralNetwork}.
  */
-public class Weights {
+public class Weights extends Matrix {
 
     // the two layers which are connected
-    private final Layer l1, l2;
+    private final Layer l0, l1;
 
     /**
-     * The weights between the layers.
+     * The bias of the weights.
      */
-    private final Matrix weights;
-
-    /**
-     * @param l1
-     * @param l2
-     */
-    public Weights(Layer l1, Layer l2) {
-        this.l1 = l1;
-        this.l2 = l2;
-
-        weights = new Matrix(l1.size(), l2.size());
-
-        // Assign random weights
-        randomize();
-    }
+    private Matrix bias;
 
     /**
      * 
      */
-    public void randomize() {
-        weights.setAll(d -> Math.random());
+    private String weightsName;
+
+    /**
+     * Create a set of weights connecting two layers.
+     * 
+     * @param l0 a layer
+     * @param l1 another layer
+     */
+    public Weights(Layer l0, Layer l1) {
+        super(l1.m(), l0.m());
+        this.l0 = l0;
+        this.l1 = l1;
+        
+        weightsName = l0.getLayerName() + " weights";
+
+        bias = new Matrix(m(), n());
+        bias.setAll(v -> 0d);
     }
 
     /**
-     * @return the weights
+     * @return the layer
      */
-    public Matrix getMatrix() {
-        return weights;
+    public Layer getL0() {
+        return l0;
     }
 
     /**
@@ -49,12 +50,25 @@ public class Weights {
     public Layer getL1() {
         return l1;
     }
+    
+    /**
+     * @return the bias
+     */
+    public Matrix getBias() {
+        return bias;
+    }
 
     /**
-     * @return the l2
+     * @param bias the bias to set
      */
-    public Layer getL2() {
-        return l2;
+    public void setBias(Matrix bias) {
+        this.bias = bias;
+    }
+
+    @Override
+    public void print() {
+        System.out.println(weightsName);
+        super.print();
     }
 
 }
